@@ -5,6 +5,8 @@ import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.service.UserServiceImpl;
 
+import GenerateRandomUser.GenerateUser;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,19 +15,24 @@ public class Main {
 
 
     public static void main(String[] args) {
-        UserDaoJDBCImpl userDaoJDBC = new UserDaoJDBCImpl();
+        UserServiceImpl userDaoJDBC = new UserServiceImpl();
+
         userDaoJDBC.createUsersTable();
-        userDaoJDBC.saveUser("al", "an", (byte) 30);
-        System.out.println("User с именем – name добавлен в базу данных");
-        userDaoJDBC.saveUser("an", "nan", (byte) 10);
-        System.out.println("User с именем – name добавлен в базу данных");
-        userDaoJDBC.saveUser("hl", "ahn", (byte) 12);
-        System.out.println("User с именем – name добавлен в базу данных");
-        userDaoJDBC.saveUser("hgl", "ahn", (byte) 12);
-        System.out.println("User с именем – name добавлен в базу данных");
-        for (User i: userDaoJDBC.getAllUsers()) {
-            System.out.println(i);
+        for (int i = 0; i < 4; i++) {
+            userDaoJDBC.saveUser(GenerateUser.getName(), GenerateUser.getLastName(), GenerateUser.getAge());
+            System.out.println("User с именем – name добавлен в базу данных");
         }
+
+
+
+        for (User user:userDaoJDBC.getAllUsers()) {
+            System.out.println(user);
+        }
+
+
+
+
+        userDaoJDBC.cleanUsersTable();
         userDaoJDBC.dropUsersTable();
     }
 }
